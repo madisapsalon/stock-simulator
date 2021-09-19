@@ -1,0 +1,58 @@
+<div class="stage">
+  <header>
+    <h1>Stock market</h1>
+  </header>
+
+  <section class="day-section">
+    <h2>Day {{ dayCount$ | async }}</h2>
+    <div>
+      <strong>{{ currentDate$ | async }}</strong>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="passDay()">Go to tomorrow</button>
+    </div>
+  </section>
+
+  <main>
+    <table mat-table [dataSource]="stocks" fixedLayout class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef>Symbol</th>
+        <td mat-cell *matCellDef="let element">
+          <strong>{{ element.symbol }}</strong>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="initialValue">
+        <th mat-header-cell *matHeaderCellDef>Initial value</th>
+        <td mat-cell *matCellDef="let element"> {{ element.initialValue | currency: 'USD' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="percentageOfChange">
+        <th mat-header-cell *matHeaderCellDef>Absolute change</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [class.decreased]="element.absoluteChange < 0"
+          [class.increased]="element.absoluteChange > 0">
+          {{ element.absoluteChange | number: '1.2-2' | currency: 'USD' }}
+          ({{ element.percentageOfChange | percent: '1.2-2' }})
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="currentValue">
+        <th mat-header-cell *matHeaderCellDef>Current value</th>
+        <td mat-cell *matCellDef="let element">
+          <strong>{{ element.currentValue | currency: 'USD' }}</strong>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </main>
+</div>

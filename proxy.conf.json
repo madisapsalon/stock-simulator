@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": "https://staging-api.brainbase.com/stocks.php",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
